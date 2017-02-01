@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">BookKeeper</string>
+	<string name="new_entry">Ny händelse</string>
+	<string name="show_all_entries">Visa alla händelser</string>
+	<string name="create_reports">Skapa rapporter</string>
+	<string name="income">Inkomst</string>
+	<string name="expense">Utgift</string>
+	<string name="date">Datum:</string>
+	<string name="description">Beskrivning:</string>
+	<string name="type">Typ:</string>
+	<string name="to_or_from_account">Till/från konto:</string>
+	<string name="amount">Totalt belopp (inkl. moms):</string>
+	<string name="tax">Moms:</string>
+	<string name="add_entry">Lägg till händelse</string>
+	<string name="choose_type">Välj typ</string>
+	<string name="choose_account">Välj konto</string>
+	<string name="add_entry_text">Här kan du lägga till nya händelser, antingen inkomster eller utgifter.</string>
+
+	<string-array name="income_type_array">
+		<item>Försäljning</item>
+		<item>Mutor</item>
+		<item>Gåvor</item>
+	</string-array>
+
+	<string-array name="income_number_array">
+		<item>3000</item>
+		<item>2000</item>
+		<item>1000</item>
+	</string-array>
+
+	<string-array name="expense_type_array">
+		<item>Mutor</item>
+		<item>Investeringar</item>
+		<item>Mat</item>
+		<item>Dryck</item>
+		<item>Resor</item>
+	</string-array>
+
+	<string-array name="expense_number_array">
+		<item>2010</item>
+		<item>4030</item>
+		<item>3090</item>
+		<item>2070</item>
+		<item>9050</item>
+	</string-array>
+
+	<string-array name="money_accounts_array">
+		<item>Kontokort</item>
+		<item>Kreditkort</item>
+		<item>Banken!!!</item>
+	</string-array>
+
+	<string-array name="money_numbers_array">
+		<item>9867</item>
+		<item>4576</item>
+		<item>4325</item>
+	</string-array>
+
+	<string-array name="tax_array">
+		<item>0.06</item>
+		<item>0.12</item>
+		<item>0.25</item>
+	</string-array>
+</resources>
