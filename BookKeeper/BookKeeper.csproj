@@ -60,6 +60,8 @@
     <Compile Include="Account.cs" />
     <Compile Include="NewEntryActivity.cs" />
     <Compile Include="DatePickerFragment.cs" />
+    <Compile Include="EntryListActivity.cs" />
+    <Compile Include="EntryAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -71,6 +73,8 @@
     <AndroidResource Include="Resources\layout\activity_main.axml" />
     <AndroidResource Include="Resources\values\Strings.xml" />
     <AndroidResource Include="Resources\layout\activity_new_entry.xml" />
+    <AndroidResource Include="Resources\layout\activity_entry_list.axml" />
+    <AndroidResource Include="Resources\layout\entry_list_item.axml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\mipmap-hdpi\" />

@@ -7,18 +7,15 @@
         android:id="@+id/new_entry_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/new_entry"
-        android:onClick="newEntry" />
+        android:text="@string/new_entry" />
     <Button
         android:id="@+id/show_all_entries_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/show_all_entries"
-        android:onClick="showAllEntries" />
+        android:text="@string/show_all_entries" />
     <Button
         android:id="@+id/create_reports_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/create_reports"
-        android:onClick="createReports" />
+        android:text="@string/create_reports" />
 </LinearLayout>

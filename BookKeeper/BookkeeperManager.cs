@@ -12,6 +12,20 @@ namespace BookKeeper
 
 		private readonly string dbPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal)
 									 + @"\database.db";
+
+		public static BookkeeperManager Instance
+		{
+			get
+			{
+				if (instance == null)
+				{
+					instance = new BookkeeperManager();
+				}
+
+				return instance;
+			}
+		}
+
 		public List<Entry> Entries
 		{
 			get
@@ -71,19 +85,6 @@ namespace BookKeeper
 		private BookkeeperManager()
 		{
 			FillDatabase();
-		}
-
-		public static BookkeeperManager Instance
-		{
-			get
-			{
-				if (instance == null)
-				{
-					instance = new BookkeeperManager();
-				}
-
-				return instance;
-			}
 		}
 
 		public void AddEntry(Entry entry)

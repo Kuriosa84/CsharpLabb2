@@ -101,6 +101,7 @@ namespace BookKeeper
 			Button saveButton = FindViewById<Button>(Resource.Id.save_button);
 			saveButton.Click += delegate{
 				double amount = Double.Parse(FindViewById<EditText>(Resource.Id.amount_edit).Text);
+				string description = FindViewById<EditText>(Resource.Id.description_edit).Text;
 				Account moneyAccount = bookkeeperManager.MoneyAccounts[moneyAccountSpinner.SelectedItemPosition];
 				Account incomeOrExpenseAccount;
 				if (isIncomeAccount)
@@ -110,7 +111,7 @@ namespace BookKeeper
 				TaxRate rate = bookkeeperManager.TaxRates[taxSpinner.SelectedItemPosition];
 				DateTime date = selectedDate;
 
-				Entry entry = new Entry(amount, isIncomeAccount, moneyAccount.Nr, incomeOrExpenseAccount.Nr,
+				Entry entry = new Entry(amount, description, isIncomeAccount, moneyAccount.Nr, incomeOrExpenseAccount.Nr,
 										rate.Rate, date);
 				bookkeeperManager.AddEntry(entry);
 				
