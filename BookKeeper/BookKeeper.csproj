@@ -59,6 +59,7 @@
     <Compile Include="TaxRate.cs" />
     <Compile Include="Account.cs" />
     <Compile Include="NewEntryActivity.cs" />
+    <Compile Include="DatePickerFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

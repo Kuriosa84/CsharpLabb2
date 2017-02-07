@@ -17,10 +17,13 @@ namespace BookKeeper
 	[Activity(Label = "Ny händelse")]
 	public class NewEntryActivity : Activity
 	{
-		Spinner typeSpinner;
-		ArrayAdapter incomeAdapter;
-		ArrayAdapter expenseAdapter;
-		string dbPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal) + @"\database.db";
+		TextView dateDisplay;
+		Button dateSelectButton;
+		Spinner typeSpinner, moneyAccountSpinner, taxSpinner;
+		ArrayAdapter incomeAdapter, expenseAdapter, taxAdapter, moneyAccountAdapter;
+		BookkeeperManager bookkeeperManager;
+		bool isIncomeAccount;
+		DateTime selectedDate;
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -28,116 +31,52 @@ namespace BookKeeper
 
 			SetContentView(Resource.Layout.activity_new_entry);
 
-			BookkeeperManager bookkeeperManager = BookkeeperManager.Instance;
+			bookkeeperManager = BookkeeperManager.Instance;
 
-			SQLiteConnection db = new SQLiteConnection(dbPath);
-
-			FillDatabase();
 			SetSpinners();
 			SetRadioButtons();
+			SetDatePicker();
+			SetSaveButton();
 		}
 
-		private void FillDatabase()
+		private void SetDatePicker()
 		{
-			SQLiteConnection db = new SQLiteConnection(dbPath);
-
-			db.CreateTable<Entry>();
-			db.CreateTable<Account>();
-			db.CreateTable<TaxRate>();
-
-			var accounts = db.Table<Account>().ToList();
-
-			if (accounts.Count == 0)
-			{
-				string[] incomeAccounts = Resources.GetStringArray(Resource.Array.income_type_array);
-				string[] incomeNumbers = Resources.GetStringArray(Resource.Array.income_number_array);
-				for (int i = 0; i < incomeAccounts.Length; i++)
-				{
-					Account newAccount = new Account { Nr = Int32.Parse(incomeNumbers[i]), Name = incomeAccounts[i], Type = Account.AccountType.Income };
-					db.Insert(newAccount);
-				}
-
-				string[] expenseAccounts = Resources.GetStringArray(Resource.Array.expense_type_array);
-				string[] expenseNumbers = Resources.GetStringArray(Resource.Array.expense_number_array);
-				for (int i = 0; i < expenseAccounts.Length; i++)
-				{
-					Account newAccount = new Account { Nr = Int32.Parse(expenseNumbers[i]), Name = expenseAccounts[i], Type = Account.AccountType.Expense };
-					db.Insert(newAccount);
-				}
-
-				string[] moneyAccounts = Resources.GetStringArray(Resource.Array.money_accounts_array);
-				string[] moneyNumbers = Resources.GetStringArray(Resource.Array.money_numbers_array);
-				for (int i = 0; i < moneyAccounts.Length; i++)
-				{
-					Account newAccount = new Account { Nr = Int32.Parse(moneyNumbers[i]), Name = moneyAccounts[i], Type = Account.AccountType.Money };
-					db.Insert(newAccount);
-				}
-			}
-
-			TableQuery<TaxRate> taxrates = db.Table<TaxRate>();
-
-			if (taxrates.Count() == 0)
-			{
-				string[] taxes = Resources.GetStringArray(Resource.Array.tax_array);
-				for (int i = 0; i < taxes.Length; i++)
-				{
-					TaxRate taxRate = new TaxRate { Rate = Double.Parse(taxes[i]) };
-					db.Insert(taxRate);
-				}
-			}
-
-			db.Close();
+			dateDisplay = FindViewById<TextView>(Resource.Id.date_display);
+			dateSelectButton = FindViewById<Button>(Resource.Id.date_select_button);
+			dateSelectButton.Click += DateSelectOnClick;
 		}
+
+		void DateSelectOnClick(object sender, EventArgs eventArgs)
+		{
+			DatePickerFragment frag = DatePickerFragment.NewInstance(delegate (DateTime time)
+				 {
+					 dateDisplay.Text = time.ToLongDateString();
+					 selectedDate = time;
+				 });
+			frag.Show(FragmentManager, DatePickerFragment.TAG);
+		}
+
+
 
 		private void SetSpinners()
 		{
-			SQLiteConnection db = new SQLiteConnection(dbPath);
-
 			typeSpinner = FindViewById<Spinner>(Resource.Id.type_spinner);
-			Spinner moneyAccountSpinner = FindViewById<Spinner>(Resource.Id.money_account_spinner);
-			Spinner taxSpinner = FindViewById<Spinner>(Resource.Id.tax_spinner);
+			moneyAccountSpinner = FindViewById<Spinner>(Resource.Id.money_account_spinner);
+			taxSpinner = FindViewById<Spinner>(Resource.Id.tax_spinner);
 
-			var accounts = db.Table<Account>().ToList();
-
-			incomeAdapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerItem, accounts);
+			incomeAdapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerItem, bookkeeperManager.IncomeAccounts);
 			typeSpinner.Adapter = incomeAdapter;
 
-			var taxes = db.Table<TaxRate>().ToList();
-
-			ArrayAdapter taxAdapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerItem, taxes);
-			taxSpinner.Adapter = taxAdapter;
-
-			var expenses = db.Table<Account>().Where(a => a.Type == Account.AccountType.Expense).ToList();
+			taxSpinner.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerItem, bookkeeperManager.TaxRates);
 
 			expenseAdapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerItem,
-				                                  expenses);
+			                                  bookkeeperManager.ExpenseAccounts);
 
-			var moneyAccounts = db.Table<Account>().Where(a => a.Type == Account.AccountType.Money).ToList();
-
-			ArrayAdapter moneyAccountAdapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerItem,
-			                                                    moneyAccounts);
+			moneyAccountAdapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerItem,
+			                                       bookkeeperManager.MoneyAccounts);
 			moneyAccountSpinner.Adapter = moneyAccountAdapter;
 
-			db.Close();
 		}
-
-		private static List<Account> makeListFromIEnumerable(IEnumerable<Account> query)
-		{
-			Account account = query.First();
-			List<Account> accountList = new List<Account>();
-			accountList.Add(account);
-			return accountList;
-		}
-
-		private static List<Object> makeList(IEnumerable<Object> query)
-		{
-			Object thing = query.First();
-			List<Object> result = new List<Object>();
-			result.Add(thing);
-			return result;
-		}
-
-
 
 		private void SetRadioButtons()
 		{
@@ -147,11 +86,34 @@ namespace BookKeeper
 			incomeRB.Click += delegate (object sender, EventArgs e)
 			{
 				typeSpinner.Adapter = incomeAdapter;
+				isIncomeAccount = true;
 			};
 
 			expenseRB.Click += delegate (object sender, EventArgs e)
 			{
 				typeSpinner.Adapter = expenseAdapter;
+				isIncomeAccount = false;
+			};
+		}
+
+		private void SetSaveButton()
+		{
+			Button saveButton = FindViewById<Button>(Resource.Id.save_button);
+			saveButton.Click += delegate{
+				double amount = Double.Parse(FindViewById<EditText>(Resource.Id.amount_edit).Text);
+				Account moneyAccount = bookkeeperManager.MoneyAccounts[moneyAccountSpinner.SelectedItemPosition];
+				Account incomeOrExpenseAccount;
+				if (isIncomeAccount)
+					incomeOrExpenseAccount = bookkeeperManager.IncomeAccounts[typeSpinner.SelectedItemPosition];
+				else
+					incomeOrExpenseAccount = bookkeeperManager.ExpenseAccounts[typeSpinner.SelectedItemPosition];
+				TaxRate rate = bookkeeperManager.TaxRates[taxSpinner.SelectedItemPosition];
+				DateTime date = selectedDate;
+
+				Entry entry = new Entry(amount, isIncomeAccount, moneyAccount.Nr, incomeOrExpenseAccount.Nr,
+										rate.Rate, date);
+				bookkeeperManager.AddEntry(entry);
+				
 			};
 		}
 	}

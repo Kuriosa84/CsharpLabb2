@@ -7,24 +7,26 @@ namespace BookKeeper
 	{
 		[PrimaryKey, AutoIncrement]
 		public int Id { get; private set; }
+		public double Amount { get; set; }
 		public bool IsIncomeAccount { get; set; }
 		public int MoneyAccount { get; set; }
 		public int IncomeOrExpenseAccount { get; set; }
-		public double Rate { get; set; }
+		public double TaxRate { get; set; }
 		public DateTime Date { get; set; }
 
-		//public Account MoneyAccount { get; set; }
-		//public Account IncomeOrExpenseAccount { get; set; }
-		//public TaxRate Rate { get; set; }
-
-		public Entry(int id, bool isIncomeAccount, Account moneyAccount, Account incomeOrExpenseAccount,
-		            TaxRate rate)
+		public Entry()
 		{
-			Id = id;
+		}
+
+		public Entry(double amount, bool isIncomeAccount, int moneyAccount, int incomeOrExpenseAccount, double taxRate,
+		             DateTime date)
+		{
+			Amount = amount;
 			IsIncomeAccount = isIncomeAccount;
-			MoneyAccount = moneyAccount.Nr;
-			IncomeOrExpenseAccount = incomeOrExpenseAccount.Nr;
-			Rate = rate.Rate;
+			MoneyAccount = moneyAccount;
+			IncomeOrExpenseAccount = incomeOrExpenseAccount;
+			TaxRate = taxRate;
+			Date = date;
 		}
 	}
 }

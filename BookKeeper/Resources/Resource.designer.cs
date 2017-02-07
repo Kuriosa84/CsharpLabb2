@@ -78,17 +78,20 @@ namespace BookKeeper
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f05000a
-			public const int amount_edit = 2131034122;
+			// aapt resource value: 0x7f05000b
+			public const int amount_edit = 2131034123;
 			
 			// aapt resource value: 0x7f050002
 			public const int create_reports_button = 2131034114;
 			
 			// aapt resource value: 0x7f050006
-			public const int date_edit = 2131034118;
+			public const int date_display = 2131034118;
 			
 			// aapt resource value: 0x7f050007
-			public const int description_edit = 2131034119;
+			public const int date_select_button = 2131034119;
+			
+			// aapt resource value: 0x7f050008
+			public const int description_edit = 2131034120;
 			
 			// aapt resource value: 0x7f050005
 			public const int expenseRadioButton = 2131034117;
@@ -96,8 +99,8 @@ namespace BookKeeper
 			// aapt resource value: 0x7f050004
 			public const int incomeRadioButton = 2131034116;
 			
-			// aapt resource value: 0x7f050009
-			public const int money_account_spinner = 2131034121;
+			// aapt resource value: 0x7f05000a
+			public const int money_account_spinner = 2131034122;
 			
 			// aapt resource value: 0x7f050000
 			public const int new_entry_button = 2131034112;
@@ -105,14 +108,17 @@ namespace BookKeeper
 			// aapt resource value: 0x7f050003
 			public const int radioGroup1 = 2131034115;
 			
+			// aapt resource value: 0x7f05000d
+			public const int save_button = 2131034125;
+			
 			// aapt resource value: 0x7f050001
 			public const int show_all_entries_button = 2131034113;
 			
-			// aapt resource value: 0x7f05000b
-			public const int tax_spinner = 2131034123;
+			// aapt resource value: 0x7f05000c
+			public const int tax_spinner = 2131034124;
 			
-			// aapt resource value: 0x7f050008
-			public const int type_spinner = 2131034120;
+			// aapt resource value: 0x7f050009
+			public const int type_spinner = 2131034121;
 			
 			static Id()
 			{
@@ -181,6 +187,12 @@ namespace BookKeeper
 			
 			// aapt resource value: 0x7f030001
 			public const int new_entry = 2130903041;
+			
+			// aapt resource value: 0x7f030010
+			public const int pick_date = 2130903056;
+			
+			// aapt resource value: 0x7f030011
+			public const int save_entry = 2130903057;
 			
 			// aapt resource value: 0x7f030002
 			public const int show_all_entries = 2130903042;

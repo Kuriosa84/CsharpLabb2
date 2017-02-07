@@ -16,7 +16,9 @@
 	<string name="choose_type">Välj typ</string>
 	<string name="choose_account">Välj konto</string>
 	<string name="add_entry_text">Här kan du lägga till nya händelser, antingen inkomster eller utgifter.</string>
-
+	<string name="pick_date">Välj datum</string>
+	<string name="save_entry">Spara händelse</string>
+	
 	<string-array name="income_type_array">
 		<item>Försäljning</item>
 		<item>Mutor</item>
