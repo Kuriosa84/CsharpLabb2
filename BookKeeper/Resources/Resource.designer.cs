@@ -28,40 +28,6 @@ namespace BookKeeper
 		{
 		}
 		
-		public partial class Array
-		{
-			
-			// aapt resource value: 0x7f040003
-			public const int expense_number_array = 2130968579;
-			
-			// aapt resource value: 0x7f040002
-			public const int expense_type_array = 2130968578;
-			
-			// aapt resource value: 0x7f040001
-			public const int income_number_array = 2130968577;
-			
-			// aapt resource value: 0x7f040000
-			public const int income_type_array = 2130968576;
-			
-			// aapt resource value: 0x7f040004
-			public const int money_accounts_array = 2130968580;
-			
-			// aapt resource value: 0x7f040005
-			public const int money_numbers_array = 2130968581;
-			
-			// aapt resource value: 0x7f040006
-			public const int tax_array = 2130968582;
-			
-			static Array()
-			{
-				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
-			}
-			
-			private Array()
-			{
-			}
-		}
-		
 		public partial class Attribute
 		{
 			
@@ -78,59 +44,71 @@ namespace BookKeeper
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f050000
-			public const int all_entries_list_view = 2131034112;
+			// aapt resource value: 0x7f040000
+			public const int account_report_button = 2130968576;
 			
-			// aapt resource value: 0x7f05000c
-			public const int amount_edit = 2131034124;
+			// aapt resource value: 0x7f04000f
+			public const int amount_edit = 2130968591;
 			
-			// aapt resource value: 0x7f050003
-			public const int create_reports_button = 2131034115;
+			// aapt resource value: 0x7f040003
+			public const int android_R_id_list = 2130968579;
 			
-			// aapt resource value: 0x7f050007
-			public const int date_display = 2131034119;
+			// aapt resource value: 0x7f040006
+			public const int create_reports_button = 2130968582;
 			
-			// aapt resource value: 0x7f050008
-			public const int date_select_button = 2131034120;
+			// aapt resource value: 0x7f04000a
+			public const int date_display = 2130968586;
 			
-			// aapt resource value: 0x7f050009
-			public const int description_edit = 2131034121;
+			// aapt resource value: 0x7f04000b
+			public const int date_select_button = 2130968587;
 			
-			// aapt resource value: 0x7f05000f
-			public const int entry_left_column = 2131034127;
+			// aapt resource value: 0x7f04000c
+			public const int description_edit = 2130968588;
 			
-			// aapt resource value: 0x7f050010
-			public const int entry_middle_column = 2131034128;
+			// aapt resource value: 0x7f040013
+			public const int entry_left_column = 2130968595;
 			
-			// aapt resource value: 0x7f050011
-			public const int entry_right_column = 2131034129;
+			// aapt resource value: 0x7f040014
+			public const int entry_middle_column = 2130968596;
 			
-			// aapt resource value: 0x7f050006
-			public const int expenseRadioButton = 2131034118;
+			// aapt resource value: 0x7f040015
+			public const int entry_right_column = 2130968597;
 			
-			// aapt resource value: 0x7f050005
-			public const int incomeRadioButton = 2131034117;
+			// aapt resource value: 0x7f040009
+			public const int expenseRadioButton = 2130968585;
 			
-			// aapt resource value: 0x7f05000b
-			public const int money_account_spinner = 2131034123;
+			// aapt resource value: 0x7f040008
+			public const int incomeRadioButton = 2130968584;
 			
-			// aapt resource value: 0x7f050001
-			public const int new_entry_button = 2131034113;
+			// aapt resource value: 0x7f04000e
+			public const int money_account_spinner = 2130968590;
 			
-			// aapt resource value: 0x7f050004
-			public const int radioGroup1 = 2131034116;
+			// aapt resource value: 0x7f040011
+			public const int net_amount_text = 2130968593;
 			
-			// aapt resource value: 0x7f05000e
-			public const int save_button = 2131034126;
+			// aapt resource value: 0x7f040004
+			public const int new_entry_button = 2130968580;
 			
-			// aapt resource value: 0x7f050002
-			public const int show_all_entries_button = 2131034114;
+			// aapt resource value: 0x7f040007
+			public const int radioGroup1 = 2130968583;
 			
-			// aapt resource value: 0x7f05000d
-			public const int tax_spinner = 2131034125;
+			// aapt resource value: 0x7f040002
+			public const int report_text = 2130968578;
 			
-			// aapt resource value: 0x7f05000a
-			public const int type_spinner = 2131034122;
+			// aapt resource value: 0x7f040012
+			public const int save_button = 2130968594;
+			
+			// aapt resource value: 0x7f040005
+			public const int show_all_entries_button = 2130968581;
+			
+			// aapt resource value: 0x7f040001
+			public const int tax_report_button = 2130968577;
+			
+			// aapt resource value: 0x7f040010
+			public const int tax_spinner = 2130968592;
+			
+			// aapt resource value: 0x7f04000d
+			public const int type_spinner = 2130968589;
 			
 			static Id()
 			{
@@ -146,16 +124,19 @@ namespace BookKeeper
 		{
 			
 			// aapt resource value: 0x7f020000
-			public const int activity_entry_list = 2130837504;
+			public const int activity_create_reports = 2130837504;
 			
 			// aapt resource value: 0x7f020001
-			public const int activity_main = 2130837505;
+			public const int activity_entry_list = 2130837505;
 			
 			// aapt resource value: 0x7f020002
-			public const int activity_new_entry = 2130837506;
+			public const int activity_main = 2130837506;
 			
 			// aapt resource value: 0x7f020003
-			public const int entry_list_item = 2130837507;
+			public const int activity_new_entry = 2130837507;
+			
+			// aapt resource value: 0x7f020004
+			public const int entry_list_item = 2130837508;
 			
 			static Layout()
 			{
@@ -209,6 +190,9 @@ namespace BookKeeper
 			// aapt resource value: 0x7f030010
 			public const int pick_date = 2130903056;
 			
+			// aapt resource value: 0x7f030013
+			public const int report_accounts = 2130903059;
+			
 			// aapt resource value: 0x7f030011
 			public const int save_entry = 2130903057;
 			
@@ -218,8 +202,14 @@ namespace BookKeeper
 			// aapt resource value: 0x7f03000b
 			public const int tax = 2130903051;
 			
+			// aapt resource value: 0x7f030014
+			public const int tax_report = 2130903060;
+			
 			// aapt resource value: 0x7f030009
 			public const int to_or_from_account = 2130903049;
+			
+			// aapt resource value: 0x7f030012
+			public const int total_without_tax = 2130903058;
 			
 			// aapt resource value: 0x7f030008
 			public const int type = 2130903048;

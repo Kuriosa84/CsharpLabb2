@@ -28,7 +28,7 @@ namespace BookKeeper
 
 		public override Java.Lang.Object GetItem(int position)
 		{
-			return null;
+			return new JavaObjectWrapper() { Obj = entries[position] };
 		}
 
 		public override long GetItemId(int position)

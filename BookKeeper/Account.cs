@@ -3,20 +3,15 @@ using SQLite;
 
 namespace BookKeeper
 {
+	/*
+	 * This class represents an account - income, expense or money account.
+	 */
 	public class Account
 	{
 		[PrimaryKey]
 		public int Nr { get; set; }
 		public string Name { get; set; }
-		//public int Type { get; set; }
-		public enum AccountType
-		{
-			Income,
-			Expense,
-			Money
-		}
-		public AccountType Type;
-
+		public AccountType Type { get; set; }
 
 		public Account()
 		{

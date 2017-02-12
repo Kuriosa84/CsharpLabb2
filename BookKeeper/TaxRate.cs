@@ -3,6 +3,9 @@ using SQLite;
 
 namespace BookKeeper
 {
+	/*
+	 * This class represents a tax rate in the bookkeeping database.
+	 */
 	public class TaxRate
 	{
 		[PrimaryKey, AutoIncrement]

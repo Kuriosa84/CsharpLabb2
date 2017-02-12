@@ -3,6 +3,9 @@ using SQLite;
 
 namespace BookKeeper
 {
+	/*
+	 * This class represents a bookkeeping entry in the database.
+	 */
 	public class Entry
 	{
 		[PrimaryKey, AutoIncrement]
@@ -18,7 +21,9 @@ namespace BookKeeper
 		{
 			get
 			{
-				return Date.Year + "-" + Date.Month + "-" + Date.Day;
+				string month = string.Format("{0,2:D2}", Date.Month);
+				string day = string.Format("{0,2:D2}", Date.Day);
+				return Date.Year + "-" + month + "-" + day;
 			}
 		}
 

@@ -14,9 +14,15 @@ using Android.Widget;
 namespace BookKeeper
 {
 	[Activity(Label = "EntryListActivity")]
+	/*
+	 * A list of all entries in the database. When an entry is clicked, the user
+	 * reaches an editing page for that particular entry.
+	 */
 	public class EntryListActivity : Activity
 	{
 		BookkeeperManager bookkeeperManager;
+		List<Entry> entries;
+
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -25,10 +31,17 @@ namespace BookKeeper
 			SetContentView(Resource.Layout.activity_entry_list);
 
 			bookkeeperManager = BookkeeperManager.Instance;
-			List<Entry> entries = bookkeeperManager.Entries;
-			ListView entryList = FindViewById<ListView>(Resource.Id.all_entries_list_view);
-			entryList.Adapter = new EntryAdapter(this, entries);
+			entries = bookkeeperManager.Entries;
+			ListView entryList = FindViewById<ListView>(Resource.Id.android_R_id_list);
+			EntryAdapter entryAdapter = new EntryAdapter(this, entries);
+			entryList.Adapter = entryAdapter;
 
+			entryList.ItemClick += delegate(object sender, AdapterView.ItemClickEventArgs e) {
+				bookkeeperManager.SelectedEntry = entries[e.Position];
+				Intent intent = new Intent(this, typeof(NewEntryActivity));
+				intent.PutExtra(NewEntryActivity.editEntry, true);
+				StartActivity(intent);
+			};
 
 		}
 	}

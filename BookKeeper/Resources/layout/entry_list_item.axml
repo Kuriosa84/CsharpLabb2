@@ -6,15 +6,19 @@
     <TextView
         android:id="@+id/entry_left_column"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:paddingRight="5dp"
+        android:textSize="24sp" />
     <TextView
         android:id="@+id/entry_middle_column"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:textSize="24sp" />
     <TextView
         android:id="@+id/entry_right_column"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:textSize="24sp" />
 </LinearLayout>

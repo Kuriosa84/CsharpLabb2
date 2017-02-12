@@ -6,12 +6,56 @@ using SQLite;
 
 namespace BookKeeper
 {
+	/*
+	 * Keeps track of accounts, entries and tax rates. Is a Singleton class.
+	 */
 	public class BookkeeperManager
 	{
 		private static BookkeeperManager instance;
 
 		private readonly string dbPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal)
 									 + @"\database.db";
+
+		/*
+		 * If there are no accounts or tax rates in the database,
+		 * they will be created in this constructor.
+		 */
+		private BookkeeperManager()
+		{
+			SQLiteConnection db = new SQLiteConnection(dbPath);
+
+			db.CreateTable<Entry>();
+			db.CreateTable<Account>();
+			db.CreateTable<TaxRate>();
+
+			var accounts = db.Table<Account>().ToList();
+
+			if (accounts.Count == 0)
+			{
+				db.Insert(new Account(1000, "Fådda mutor", AccountType.Income));
+				db.Insert(new Account(2000, "Försäljning", AccountType.Income));
+				db.Insert(new Account(3000, "Fådda gåvor", AccountType.Income));
+
+				db.Insert(new Account(1020, "Gedda mutor", AccountType.Expense));
+				db.Insert(new Account(2030, "Investeringar", AccountType.Expense));
+				db.Insert(new Account(3040, "Mat", AccountType.Expense));
+				db.Insert(new Account(4050, "Resor", AccountType.Expense));
+
+				db.Insert(new Account(1100, "Kontokort", AccountType.Money));
+				db.Insert(new Account(2200, "Kreditkort", AccountType.Money));
+				db.Insert(new Account(3300, "Bankkonto", AccountType.Money));
+			}
+
+			TableQuery<TaxRate> taxrates = db.Table<TaxRate>();
+
+			if (taxrates.Count() == 0)
+			{
+				db.Insert(new TaxRate(0.06));
+				db.Insert(new TaxRate(0.12));
+				db.Insert(new TaxRate(0.25));
+			}
+			db.Close();
+		}
 
 		public static BookkeeperManager Instance
 		{
@@ -26,12 +70,13 @@ namespace BookKeeper
 			}
 		}
 
+		public Entry SelectedEntry { get; set; }
+
 		public List<Entry> Entries
 		{
 			get
 			{
 				SQLiteConnection db = new SQLiteConnection(dbPath);
-				db.CreateTable<Entry>();
 				List<Entry> result = db.Table<Entry>().ToList();
 				db.Close();
 				return result;
@@ -42,8 +87,7 @@ namespace BookKeeper
 			get 
 			{
 				SQLiteConnection db = new SQLiteConnection(dbPath);
-				db.CreateTable<Account>();
-				List<Account> result = db.Table<Account>().Where(a => a.Type == Account.AccountType.Income).ToList();
+				List<Account> result = db.Table<Account>().Where(a => a.Type == AccountType.Income).ToList();
 				db.Close();
 				return result;
 			}
@@ -53,8 +97,7 @@ namespace BookKeeper
 			get
 			{
 				SQLiteConnection db = new SQLiteConnection(dbPath);
-				db.CreateTable<Account>();
-				List<Account> result = db.Table<Account>().Where(a => a.Type == Account.AccountType.Expense).ToList();
+				List<Account> result = db.Table<Account>().Where(a => a.Type == AccountType.Expense).ToList();
 				db.Close();
 				return result;
 			}
@@ -64,8 +107,7 @@ namespace BookKeeper
 			get
 			{ 
 				SQLiteConnection db = new SQLiteConnection(dbPath);
-				db.CreateTable<Account>();
-				List<Account> result = db.Table<Account>().Where(a => a.Type == Account.AccountType.Money).ToList();
+				List<Account> result = db.Table<Account>().Where(a => a.Type == AccountType.Money).ToList();
 				db.Close();
 				return result;
 			}
@@ -75,62 +117,116 @@ namespace BookKeeper
 			get
 			{
 				SQLiteConnection db = new SQLiteConnection(dbPath);
-				db.CreateTable<TaxRate>();
 				List<TaxRate> result = db.Table<TaxRate>().ToList();
 				db.Close();
 				return result;
 			}
 		}
 
-		private BookkeeperManager()
-		{
-			FillDatabase();
-		}
-
 		public void AddEntry(Entry entry)
 		{
 			SQLiteConnection db = new SQLiteConnection(dbPath);
-			db.CreateTable<Entry>();
 			db.Insert(entry);
 			db.Close();
 		}
 
-		private void FillDatabase()
+		public void UpdateEntry(Entry entry)
+		{ 
+			SQLiteConnection db = new SQLiteConnection(dbPath);
+			db.Update(entry);
+			db.Close();
+		}
+
+		/*
+		 * Returns a report on how much tax each entry contributes with, as a string.
+		 */
+		public string GetTaxReport()
 		{
 			SQLiteConnection db = new SQLiteConnection(dbPath);
-
-			db.CreateTable<Entry>();
-			db.CreateTable<Account>();
-			db.CreateTable<TaxRate>();
-
-			var accounts = db.Table<Account>().ToList();
-
-			if (accounts.Count == 0)
+			List<Entry> entries = db.Table<Entry>().ToList();
+			string result = "";
+			for (int i = 0; i < entries.Count; i++)
 			{
-				db.Insert(new Account(1000, "Fådda mutor", Account.AccountType.Income));
-				db.Insert(new Account(2000, "Försäljning", Account.AccountType.Income));
-				db.Insert(new Account(3000, "Fådda gåvor", Account.AccountType.Income));
+				double tax = entries[i].Amount * (entries[i].TaxRate / (1 + entries[i].TaxRate));
+				if (!entries[i].IsIncomeAccount)
+					tax *= -1;
 
-				db.Insert(new Account(1020, "Gedda mutor", Account.AccountType.Expense));
-				db.Insert(new Account(2030, "Investeringar", Account.AccountType.Expense));
-				db.Insert(new Account(3040, "Mat", Account.AccountType.Expense));
-				db.Insert(new Account(4050, "Resor", Account.AccountType.Expense));
-
-				db.Insert(new Account(1100, "Kontokort", Account.AccountType.Money));
-				db.Insert(new Account(2200, "Kreditkort", Account.AccountType.Money));
-				db.Insert(new Account(3300, "Bankkonto", Account.AccountType.Money));
-
-			}
-
-			TableQuery<TaxRate> taxrates = db.Table<TaxRate>();
-
-			if (taxrates.Count() == 0)
-			{
-				db.Insert(new TaxRate(0.06));
-				db.Insert(new TaxRate(0.12));
-				db.Insert(new TaxRate(0.25));
+				result += entries[i].Description + "\n";
+				result += string.Format("{0:0.00}", tax) + "\n\n";
 			}
 			db.Close();
+			return result;
+		}
+
+		/*
+		 * Returns a report on all accounts - income, expense and money accounts - 
+		 * as a string.
+		 */
+		public string GetAccountReport()
+		{
+			SQLiteConnection db = new SQLiteConnection(dbPath);
+			List<Account> incomeAccounts = db.Table<Account>()
+			                                 .Where(a => a.Type == AccountType.Income).ToList();
+			List<Account> expenseAccounts = db.Table<Account>()
+			                                  .Where(a => a.Type == AccountType.Expense).ToList();
+			List<Account> moneyAccounts = db.Table<Account>()
+			                                .Where(a => a.Type == AccountType.Money).ToList();
+
+			string result = accountStringBuilder(incomeAccounts)
+				+ accountStringBuilder(expenseAccounts)
+				+ accountStringBuilder(moneyAccounts);
+
+			db.Close();
+			return result;
+		}
+
+		/*
+		 * Helper method for GetAccountReport().
+		 */
+		private string accountStringBuilder(List<Account> accounts)
+		{
+			SQLiteConnection db = new SQLiteConnection(dbPath);
+			string result = "";
+			for (int i = 0; i < accounts.Count; i++)
+			{
+				result += accounts[i] + "\n\n";
+
+				int accountNr = accounts[i].Nr;
+				List<Entry> entries;
+				if (accounts[0].Type == AccountType.Money)
+				{
+					entries = db.Table<Entry>()
+								.Where(e => e.MoneyAccount == accountNr)
+								.ToList();
+				}
+				else
+				{
+					entries = db.Table<Entry>()
+								.Where(e => e.IncomeOrExpenseAccount == accountNr)
+								.ToList();
+				}
+				double accountTotal = 0;
+				foreach (Entry entry in entries)
+				{
+					if (entry.IsIncomeAccount)
+						accountTotal += entry.Amount;
+					else
+						accountTotal -= entry.Amount;
+				}
+
+				result += "Total: " + accountTotal + "\n";
+
+				for (int j = 0; j < entries.Count; j++)
+				{
+					result += entries[j].DateString + " - " + entries[j].Description + ", ";
+					result += entries[j].IsIncomeAccount ? "" : "-";
+					result += entries[j].Amount + "\n";
+				}
+				result += "\n";
+			}
+			result += "************\n";
+			db.Close();
+			return result;
 		}
 	}
 }
